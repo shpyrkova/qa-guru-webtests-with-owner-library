@@ -22,19 +22,43 @@ public class StarbucksTests extends TestBase {
     @DisplayName("Поиск магазина Starbucks по названию локации")
     void searchStoreByLocationNameTest() {
         step("Открыть главную страницу Starbucks", () -> {
-                    open("");
+            open("");
         });
         step("Нажать Find a store", () -> {
             $(byText("Find a store")).click();
         });
-        step("Ввести название локации магазина Royal Garden Pattaya", () -> {
-            $("[data-e2e='searchTermInput']").setValue("Royal Garden Pattaya");
+        step("Ввести название локации магазина Central Festival Pattaya", () -> {
+            $("[data-e2e='searchTermInput']").setValue("central festival pattaya");
+        });
+        step("Нажать на кнопку поиска", () -> {
+            $("[data-e2e='submitSearchTermButton']").click();
+        });
+        step("Убедиться, что появилась активная карточка магазина Central Festival Pattaya", () -> {
+            $("[data-e2e='activeCard']").shouldHave(text("Central Festival Pattaya"));
+        });
+    }
+
+    @Test
+    @Tags({@Tag("web"), @Tag("standard")})
+    @DisplayName("Выводится сообщение об ошибке, если по тексту поиска не найдена локация")
+    void searchForNotExistentLocationTest() {
+        step("Открыть главную страницу Starbucks", () -> {
+            open("");
+        });
+        step("Нажать Find a store", () -> {
+            $(byText("Find a store")).click();
+        });
+        step("Ввести название локации магазина Not real", () -> {
+            $("[data-e2e='searchTermInput']").setValue("Not real");
         });
         step("Нажать на кнопку поиска", () -> {
             $("[data-e2e='submitSearchTermButton']").click();
         });
         step("Убедиться, что появилась активная карточка магазина Royal Garden Pattaya", () -> {
-            $("[data-e2e='activeCard']").shouldHave(text("Royal Garden Pattaya"));
+            $("[data-e2e='noStoresCard']").shouldHave(text("Whoops!\n" +
+                    "We couldn't find that location.\n" +
+                    "\n" +
+                    "Please search again."));
         });
     }
 

@@ -2,6 +2,7 @@ package tests;
 
 import com.codeborne.selenide.logevents.SelenideLogger;
 import config.WebDriverProvider;
+import helpers.Attachments;
 import io.qameta.allure.selenide.AllureSelenide;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.AfterEach;
@@ -19,6 +20,7 @@ public class TestBase {
 
     @AfterEach
     void afterEach() {
+        Attachments.screenshotAs("Last step screenshot");
         closeWebDriver();
     }
 
